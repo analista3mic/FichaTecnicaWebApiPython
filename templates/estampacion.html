@@ -1,0 +1,168 @@
+{% set ficha = ficha_obj[0] %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estampación</title>
+    <link rel="stylesheet" href="{{ css_url }}">
+</head>
+<body>
+
+<!-- Encabezado -->
+<div class="header">
+    <!-- <img src="{{ logo_url }}" alt="Logo" class="logo"> -->
+    <div class="title">
+        <div class="empresa">MAQUILA INTERNACIONAL DE CONFECCIÓN S.A.S</div>
+        <div class="empresa subtitulo">Estampación</div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Tabla de datos -->
+<div class="contenido">
+    <table class="tabla-datos">
+        <tr>
+            <td><strong>Referencia:</strong> {{ficha.referencia}}</td>
+            <td><strong>Estado:</strong> {{ficha.estado}}</td>
+            <td><strong>Cliente:</strong> {{ficha.cliente}}</td>
+        </tr>
+        <tr>
+            <td><strong>Ref. Cliente:</strong> {{ficha.ref_cliente}}</td>
+            <td><strong>Género:</strong> {{ficha.genero}}</td>
+            <td><strong>Canal:</strong> {{ficha.canal}}</td>
+        </tr>
+        <tr>
+            <td><strong>Ref. Genérica:</strong> {{ficha.referencia_base}}</td>
+            <td><strong>Licencia:</strong> {{ficha.licencia}}</td>
+            <td><strong>Tejido:</strong> {{ficha.tejido}}</td>
+        </tr>
+        <tr>
+            <td><strong>Pintas / Prendas:</strong> {{ficha.pintas}} / {{ficha.prendas}}</td>
+            <td><strong>Tipo Prenda:</strong> {{ficha.tipo_prenda}}</td>
+            <td><strong>Tallas:</strong> {{ficha.tallas}}</td>
+        </tr>
+        <tr>
+            <td><strong>Empaque:</strong> {{ficha.empaque}}</td>
+            <td><strong>Silueta:</strong> {{ficha.silueta}}</td>
+        </tr>
+        <tr>
+            <td><strong>Est. Moldería:</strong> <span class="estado aprobado">{{ficha.est_molderia}}</span></td>
+            <td><strong>Est. Procesos:</strong> <span>{{ficha.est_procesos}}</span></td>
+            <td><strong>Muestra Fís:</strong> {{ficha.muestra_fis }}</td>
+        </tr>
+        <tr>
+            <td><strong>Moldería / Piezas:</strong>{{ficha.ref_molderia}} / {{ficha.piezas_molderia}}</span></td>
+            <td><strong>Est. Insumos:</strong> <span>{{ficha.est_insumos}}</span></td>
+            <td><strong>Proto:</strong> {{ficha.prototipo }}</td>
+        </tr>
+        <tr>
+            <td><strong>Diseñador:</strong> {{ficha.disenador}}</td>
+            <td><strong>Responsable:</strong> {{ficha.responsable}}</td>
+            <td><strong>Año-Mes:</strong> {{ficha.ano }} - {{ficha.mes}}</td>
+        </tr>
+        <tr>
+            <td><strong>Camapaña:</strong> {{ficha.campana}}</td>
+            <td><strong>Estampación:</strong>{{ficha.estampacion}}</span></td>
+            <td><strong>Ropero:</strong> {{ficha.ropero}}</td>  
+        </tr>
+        <tr>
+            <td><strong>Archivo:</strong> {{ficha.archivo_diseno}}</td>
+            <td><strong>Tipo Estamp:</strong> {{ficha.tipo_estamp}}</td>                
+        </tr>
+    </table>
+</div>
+
+<!-- Tabla de Procesos -->
+<div class="contenido">
+    <table class="tabla-datos-procesos">
+        <tr>
+            <td><strong>Componente</strong></td>
+            <td><strong>Procesos</strong></td>
+            <td><strong>Observación</strong></td>
+        </tr>
+        <tr>
+            <td colspan="3" style="border-top: 1px solid #000; height: 1px; padding: 0;"></td>
+        </tr>
+        {% for proceso in procesos_obj %}
+        <tr>
+            <td><strong>{{ proceso.nombre }}</strong></td>
+            <td>
+                {% for proc in proceso.procesos %}
+                    {{ proc }}<br>
+                {% endfor %}
+            </td>
+            <td>{{ proceso.observacion if proceso.observacion else ' ' }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="border-top: 1px solid #000; height: 1px; padding: 0;"></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Tabla de Estampacion -->
+<div class="contenido-estampacion">
+    <table class="tabla-datos-estampacion">
+    {% for nro_arte, colores in colores_agrupados.items() %}
+        <tr class="titulo-estampacion">
+            <th><strong>Componente</strong> </th>
+            <th><strong>Arte {{ nro_arte }}</strong></th>
+            <th><strong>Código</strong></th>
+            <th><strong>Descripción</strong></th>
+            <th><strong>Pigmentos</strong></th>
+            <th><strong>Observación</strong></th>
+        </tr>
+        {% for color in colores %}
+        <tr>
+            <td><strong>{{ color.componente }}</strong></td>
+            <td></td>
+            <td>{{ color.codigo }}</td>
+            <td>{{ color.descripcion}}</td>
+            <td></td>
+            <td>{{ color.observacion }}</td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
+</div>
+
+<div class="contenido-estampacion-colores">
+    <table class="tabla-estampacion-colores">
+    {% for i in range(0, estampacion_obj|length, 2) %}
+        <tr>
+            {% for j in range(i, i + 2) %}
+                {% if j < estampacion_obj|length %}
+                <td>
+                    <p><img src="{{ estampacion_obj[j].id_row_digital_ocean }}" alt="Estampación" style="max-width: 100%; height: 200px;"></p>
+                    <p style="margin: 0"><strong>Arte:</strong> {{ estampacion_obj[j].nro_arte }}</p>
+                    <p style="margin: 0"><strong>Nro. Colores:</strong> {{ estampacion_obj[j].nro_colores }}</p>
+                    <p style="margin: 0"><strong>Fecha:</strong> {{ estampacion_obj[j].fecha }}</p>
+                    <p style="margin: 0"><strong>Tamaño:</strong> {{ estampacion_obj[j].ancho }} An X {{ estampacion_obj[j].largo }} La</p>
+                    <p style="margin: 0"><strong>Diseñador(a):</strong> {{ estampacion_obj[j].nombre_comp }}</p>
+                    <p style="margin: 0"><strong>Ubicación:</strong> {{ estampacion_obj[j].ubicacion }}</p>
+                    <p style="margin: 0"><strong>Tipo:</strong> {{ estampacion_obj[j].nombre_tipo }}</p>
+                    <p style="margin: 0"><strong>Apr. Licencia:</strong> {{ estampacion_obj[j].aprob_lic }}</p>
+                    <p style="margin: 0"><strong>Tono Tela:</strong> {{ estampacion_obj[j].tono_tela }}</p>
+                    <p style="margin: 0"><strong>Técnica Ppal:</strong> {{ estampacion_obj[j].tecnica_pri }}</p>
+                    <p style="margin: 0"><strong>Técnica Sec:</strong> {{ estampacion_obj[j].tecnica_sec }}</p>
+                    <p style="margin: 0"><strong>Máquina:</strong> {{ estampacion_obj[j].maquina }}</p>
+                    <p style="margin: 0"><strong>SAM:</strong> {{ estampacion_obj[j].sam }}</p>
+                    <p style="margin: 0"><strong>Observación:</strong> {{ estampacion_obj[j].observacion }}</p>
+                    <p style="margin: 0"><strong>DesUbicación:</strong> {{ estampacion_obj[j].descripcion_ubica }}</p>
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                
+            {% endfor %}
+        </tr>
+        <tr>
+            <td colspan="2" style="border-top: 1px solid #000; height: 1px; padding: 0;"></td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
