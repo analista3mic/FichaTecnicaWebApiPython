@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, request
 from flask_cors import CORS
-import os
 
 from app.routes.ficha import ficha_bp
 from app.routes.estampacion import estampacion_bp
