@@ -82,11 +82,5 @@ def generate_estampacion_pdf():
     ficha_data, procesos_data, estampacion_data, estampacion_colores_data, pdf_base64, error_message, status = render_estampacion_pdf(ficha_data, procesos_data, estampacion_data, estampacion_colores_data)
     if error_message:
         return jsonify({"error": error_message}), status
-
-    return jsonify({
-        "Ficha Data": ficha_data,
-        "Procesos Data": procesos_data,
-        "Estampacion Data": estampacion_data,
-        "Estampacion Colores Data": estampacion_colores_data,
-        "pdf_base64": pdf_base64
-    })
+    
+    return jsonify({"pdf_base64": pdf_base64})

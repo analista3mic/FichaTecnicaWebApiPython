@@ -77,9 +77,4 @@ def generate_ficha_tecnica_pdf():
     if error_message:
         return jsonify({"error": error_message}), status
 
-    return jsonify({
-        "Ficha Data": ficha_data,
-        "Procesos Data": procesos_data,
-        "Operaciones Data": operaciones_data,
-        "pdf_base64": pdf_base64
-    })
+    return jsonify({"pdf_base64": pdf_base64})
